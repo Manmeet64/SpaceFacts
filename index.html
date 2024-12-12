@@ -1,1 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Facts Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background-color: #0a1929;
+            color: #ffffff;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 30px;
+            background-color: #132f4c;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #66b2ff;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        #fact-display {
+            font-size: 1.2em;
+            margin: 30px 0;
+            padding: 25px;
+            background-color: #1a3b5d;
+            border-radius: 10px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6;
+            border: 1px solid #2d557d;
+        }
+
+        #fact-id {
+            font-size: 0.8em;
+            color: #66b2ff;
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: #0072e5;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0059b2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌌 Space Facts Generator</h1>
+        <div id="fact-display">
+            Click the button below to discover amazing facts about space!
+        </div>
+        <div id="fact-id"></div>
+        <button id="generate-btn">Generate Space Fact 🚀</button>
+    </div>
+
+    <script>
+        // Space facts data
+        const spaceData = {
+            "spaceFacts": [
+                {
+                    "id": "SF001",
+                    "fact": "The footprints left by Apollo astronauts on the Moon will last for at least 100 million years since there's no atmosphere to erode them"
+                },
+                {
+                    "id": "SF002",
+                    "fact": "One day on Venus is longer than one year on Venus - it takes Venus 243 Earth days to rotate on its axis but only 225 Earth days to orbit the Sun"
+                },
+                {
+                    "id": "SF003",
+                    "fact": "The Sun makes up 99.86% of our solar system's mass"
+                },
+                {
+                    "id": "SF004",
+                    "fact": "A spacesuit costs approximately $12 million USD"
+                },
+                {
+                    "id": "SF005",
+                    "fact": "There's a planet made of diamonds twice the size of Earth - 55 Cancri e is likely covered in graphite and diamond"
+                },
+                {
+                    "id": "SF006",
+                    "fact": "The largest known star, UY Scuti, is so big that it would take 1,700 years for a passenger jet to fly around it"
+                },
+                {
+                    "id": "SF007",
+                    "fact": "There are more trees on Earth than stars in the Milky Way - we have 3 trillion trees but only 100-400 billion stars"
+                },
+                {
+                    "id": "SF008",
+                    "fact": "The Great Red Spot on Jupiter has been storming for at least 400 years"
+                },
+                {
+                    "id": "SF009",
+                    "fact": "Saturn's moon Titan has liquid methane lakes and seas on its surface"
+                },
+                {
+                    "id": "SF010",
+                    "fact": "If you could put Saturn in a giant bathtub, it would float - its density is less than water"
+                },
+                {
+                    "id": "SF011",
+                    "fact": "A day on Mercury lasts approximately 176 Earth days"
+                },
+                {
+                    "id": "SF012",
+                    "fact": "The International Space Station travels at about 17,500 mph (28,000 km/h)"
+                },
+                {
+                    "id": "SF013",
+                    "fact": "Light from the Sun takes about 8 minutes to reach Earth"
+                },
+                {
+                    "id": "SF014",
+                    "fact": "Black holes aren't actually holes - they're incredibly dense points in space with extreme gravitational pull"
+                },
+                {
+                    "id": "SF015",
+                    "fact": "There's a planet where it rains glass sideways - HD 189733b"
+                },
+                {
+                    "id": "SF016",
+                    "fact": "Astronauts grow slightly taller (about 2 inches) when in space due to the lack of gravity"
+                },
+                {
+                    "id": "SF017",
+                    "fact": "The Hubble Space Telescope has taken over 1.5 million observations since its launch in 1990"
+                },
+                {
+                    "id": "SF018",
+                    "fact": "There are billions of galaxies in the observable universe, each containing billions of stars"
+                },
+                {
+                    "id": "SF019",
+                    "fact": "The largest known black hole, TON 618, has a mass of 66 billion times that of our Sun"
+                },
+                {
+                    "id": "SF020",
+                    "fact": "More than 1,000 planets have been discovered outside our solar system in the Milky Way galaxy alone"
+                }
+            ]
+        };
+
+        // Get DOM elements
+        const factDisplay = document.getElementById('fact-display');
+        const factId = document.getElementById('fact-id');
+        const generateBtn = document.getElementById('generate-btn');
+
+        // Keep track of previously shown facts
+        let previousFacts = new Set();
+
+        // Function to generate random fact
+        function generateFact() {
+            const facts = spaceData.spaceFacts;
+            let randomIndex;
+
+            // Reset if all facts have been shown
+            if (previousFacts.size >= facts.length) {
+                previousFacts.clear();
+            }
+
+            // Get a random fact that hasn't been shown recently
+            do {
+                randomIndex = Math.floor(Math.random() * facts.length);
+            } while (previousFacts.has(randomIndex));
+
+            previousFacts.add(randomIndex);
+            
+            const selectedFact = facts[randomIndex];
+            factDisplay.textContent = selectedFact.fact;
+            factId.textContent = `Fact ID: ${selectedFact.id}`;
+
+            // Add animation effect
+            factDisplay.style.opacity = '0';
+            setTimeout(() => {
+                factDisplay.style.opacity = '1';
+            }, 100);
+        }
+
+        // Add click event listener to button
+        generateBtn.addEventListener('click', generateFact);
+
+        // Generate stars background
+        function createStars() {
+            const starsContainer = document.createElement('div');
+            starsContainer.className = 'stars';
+            
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute = '2px';
+                star.style.height = '2px';
+                star.style.backgroundColor = '#fff';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animation = `twinkle ${2 + Math.random() * 3}s infinite`;
+                starsContainer.appendChild(star);
+            }
+            
+            document.body.appendChild(starsContainer);
+        }
+
+        // Initialize stars on load
+        createStars();
+    </script>
+</body>
+</html>
 
