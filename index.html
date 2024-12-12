@@ -47,6 +47,7 @@
             justify-content: center;
             line-height: 1.6;
             border: 1px solid #2d557d;
+            transition: opacity 0.3s ease;
         }
 
         #fact-id {
@@ -102,10 +103,49 @@
     </div>
 
     <script>
-        // Space facts data remains unchanged
+        // Space facts data
         const spaceData = {
             "spaceFacts": [
-                // ... (your existing facts array)
+                {
+                    "id": "SF001",
+                    "fact": "The footprints left by Apollo astronauts on the Moon will last for at least 100 million years since there's no atmosphere to erode them"
+                },
+                {
+                    "id": "SF002",
+                    "fact": "One day on Venus is longer than one year on Venus - it takes Venus 243 Earth days to rotate on its axis but only 225 Earth days to orbit the Sun"
+                },
+                {
+                    "id": "SF003",
+                    "fact": "The Sun makes up 99.86% of our solar system's mass"
+                },
+                {
+                    "id": "SF004",
+                    "fact": "A spacesuit costs approximately $12 million USD"
+                },
+                {
+                    "id": "SF005",
+                    "fact": "There's a planet made of diamonds twice the size of Earth - 55 Cancri e is likely covered in graphite and diamond"
+                },
+                {
+                    "id": "SF006",
+                    "fact": "The largest known star, UY Scuti, is so big that it would take 1,700 years for a passenger jet to fly around it"
+                },
+                {
+                    "id": "SF007",
+                    "fact": "There are more trees on Earth than stars in the Milky Way - we have 3 trillion trees but only 100-400 billion stars"
+                },
+                {
+                    "id": "SF008",
+                    "fact": "The Great Red Spot on Jupiter has been storming for at least 400 years"
+                },
+                {
+                    "id": "SF009",
+                    "fact": "Saturn's moon Titan has liquid methane lakes and seas on its surface"
+                },
+                {
+                    "id": "SF010",
+                    "fact": "If you could put Saturn in a giant bathtub, it would float - its density is less than water"
+                }
             ]
         };
 
@@ -136,7 +176,7 @@
             
             const selectedFact = facts[randomIndex];
             factDisplay.textContent = selectedFact.fact;
-            factId.textContent = `Fact ID: ${selectedFact.id}`; // Fixed template literal
+            factId.textContent = `Fact ID: ${selectedFact.id}`;
 
             // Add animation effect
             factDisplay.style.opacity = '0';
@@ -156,12 +196,12 @@
             for (let i = 0; i < 100; i++) {
                 const star = document.createElement('div');
                 star.style.position = 'absolute';
-                star.style.width = '2px';  // Fixed width property
+                star.style.width = '2px';
                 star.style.height = '2px';
                 star.style.backgroundColor = '#fff';
-                star.style.left = `${Math.random() * 100}%`; // Fixed template literal
-                star.style.top = `${Math.random() * 100}%`;  // Fixed template literal
-                star.style.animation = `twinkle ${2 + Math.random() * 3}s infinite`; // Fixed template literal
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animation = `twinkle ${2 + Math.random() * 3}s infinite`;
                 starsContainer.appendChild(star);
             }
             
